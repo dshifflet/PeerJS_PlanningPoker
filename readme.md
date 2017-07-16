@@ -2,14 +2,14 @@
 
 * THIS IS A WORK IN PROGRESS *
 
-#Usage
+## Usage
 * Get an apiKey from http://www.peerjs.com
 * Host it somewhere
 * then to get to it, http://www.yourhost.com/index.html?apikey=yourKey
 
-#TODO
+## TODO
 Need to clean up case of names and ids.  Also some dry todos.
 
-#What it looks like
+## What it looks like
 ![alt text](https://raw.githubusercontent.com/dshifflet/PeerJS_PlanningPoker/master/imgs/screenshot.png "Example Screen Shot")
 
