@@ -10,3 +10,6 @@
 #TODO
 Need to clean up case of names and ids.  Also some dry todos.
 
+#What it looks like
+![alt text](https://raw.githubusercontent.com/dshifflet/PeerJS_PlanningPoker/master/imgs/screenshot.png "Example Screen Shot")
+
