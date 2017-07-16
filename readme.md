@@ -9,6 +9,7 @@
 
 ## TODO
 Need to clean up case of names and ids.  Also some dry todos.
+Really only works well in Firefox.  In Chrome if you change tabs, it basically stops getting the messages.
 
 ## What it looks like
 ![alt text](https://raw.githubusercontent.com/dshifflet/PeerJS_PlanningPoker/master/imgs/screenshot.png "Example Screen Shot")

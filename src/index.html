@@ -162,7 +162,7 @@
     <center>
         <span id="warning" class="warning"></span>
         <span id="shareurl" style="display:none;">
-            Share URL: <input type="text" id="shareUrlText" value="" style="width:200px;">
+            Share URL: <input type="text" id="shareurltext" value="" style="width:200px;">
             <input type="button" class="button" value="Copy" onclick="copyUrl();"/>
         </span>
     </center>
@@ -218,7 +218,6 @@
         var client;
 
         function startHost() {
-
             var host = document.getElementById("hostId").value;
             if (host && host !== "") {
                 document.location.href = document.location.href += "&host=" + host +
@@ -245,6 +244,11 @@
             var apiKey = getURLParameter("apikey");
             var host = getURLParameter("host");
             var id = getURLParameter("id");
+			
+			if (!apiKey) {
+				document.getElementById("warning").innerText = "Please specify an api key in the url.  You can get one at www.peerjs.com";
+				return;
+			}
 
             if (!host) {
                 document.getElementById("newgame").style.display = "";
@@ -262,7 +266,7 @@
             var div = document.getElementById("warning");
             if (host === id) {
                 div.innerText = "< You are the host if you refresh this page you will disconnect all the clients. >";
-                document.getElementById("shareUrlText").value = location.protocol + '//' + location.host + location.pathname + "?apikey=" + apiKey + "&host=" + host;
+                document.getElementById("shareurltext").value = location.protocol + '//' + location.host + location.pathname + "?apikey=" + apiKey + "&host=" + host;
                 document.getElementById("shareurl").style.display = "";
             }            
             client = new PokerClient(id, apiKey, id, host, startPoker);
@@ -278,7 +282,7 @@
         };
 
         function copyUrl() {
-            var target = document.getElementById("shareUrlText");
+            var target = document.getElementById("shareurltext");
             target.focus();
             target.setSelectionRange(0, target.value.length);
             try {
