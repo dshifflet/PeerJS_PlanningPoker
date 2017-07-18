@@ -10,6 +10,7 @@ PokerClient = function (id, apiKey, user, host, whenReady) {
     this.clients = [];
     this.history = [];
 
+
     this.peer.on('open', function (id) {
         //receive
         self.peer.on('connection', function (conn) {

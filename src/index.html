@@ -170,12 +170,12 @@
     <center>
         <div id="newgame" style="display:none;">
             <h2>New Game</h2>        
-            <p class="textlabel">Your Name:</p><input type="text" class="textentry" id="hostId"/>
+            <p class="textlabel">Your Name:</p><input type="text" class="textentry" id="userName"/>
             <input type="button" class="button" value="Ok" onclick="startHost();"/>
         </div>
         <div id="joingame" style="display:none;">
             <h2>Join Game</h2>
-            <p class="textlabel">Your Name:</p><input type="text" class="textentry" id="userId" />
+            <p class="textlabel">Your Name:</p><input type="text" class="textentry" id="joinName" />
             <input type="button" class="button" value="Ok" onclick="joinGame();" />
         </div>
         <div id="maingame" style="display:none;">
@@ -218,10 +218,11 @@
         var client;
 
         function startHost() {
-            var host = document.getElementById("hostId").value;
-            if (host && host !== "") {
+            var name = document.getElementById("userName").value;
+            var host = generateUUID();
+            if (name && name !== "") {
                 document.location.href = document.location.href += "&host=" + host +
-                    "&id=" + host;
+                    "&id=" + host + "&name=" + name;
             }
             else {
                 document.getElementById("warning").innerText = "Please fill out the name field!";
@@ -230,10 +231,11 @@
 
         function joinGame() {
             var host = getURLParameter("host");
-            var id = document.getElementById("userId").value;
-            if (id && id !== "") {
-                document.location.href = document.location.href += "&host=" + host +
-                    "&id=" + id;
+            var name = document.getElementById("joinName").value;
+            var id = generateUUID();
+            if (name && name !== "") {
+                document.location.href += 
+                    "&id=" + id + "&name=" + name;
             }
             else {
                 document.getElementById("warning").innerText = "Please fill out the name field!";
@@ -244,6 +246,7 @@
             var apiKey = getURLParameter("apikey");
             var host = getURLParameter("host");
             var id = getURLParameter("id");
+            var name = getURLParameter("name");
 			
 			if (!apiKey) {
 				document.getElementById("warning").innerText = "Please specify an api key in the url.  You can get one at www.peerjs.com";
@@ -269,7 +272,7 @@
                 document.getElementById("shareurltext").value = location.protocol + '//' + location.host + location.pathname + "?apikey=" + apiKey + "&host=" + host;
                 document.getElementById("shareurl").style.display = "";
             }            
-            client = new PokerClient(id, apiKey, id, host, startPoker);
+            client = new PokerClient(id, apiKey, name, host, startPoker);
         }
 
         function startPoker() {
@@ -295,6 +298,19 @@
         }
 
         /* NO JQUERY */
+        function generateUUID() { // Public Domain/MIT
+            var d = new Date().getTime();
+            if (typeof performance !== 'undefined' && typeof performance.now === 'function') {
+                d += performance.now(); //use high-precision timer if available
+            }
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                var r = (d + Math.random() * 16) % 16 | 0;
+                d = Math.floor(d / 16);
+                return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+            });
+        }
+
+
         function getURLParameter(name) {
             return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
         }
