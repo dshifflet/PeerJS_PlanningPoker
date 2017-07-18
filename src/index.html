@@ -271,7 +271,12 @@
                 div.innerText = "< You are the host if you refresh this page you will disconnect all the clients. >";
                 document.getElementById("shareurltext").value = location.protocol + '//' + location.host + location.pathname + "?apikey=" + apiKey + "&host=" + host;
                 document.getElementById("shareurl").style.display = "";
-            }            
+            }        
+            else {
+                document.getElementById("btnnewgame").style.display = "none";
+                document.getElementById("btncallgame").style.display = "none";
+                document.getElementById("gamename").readOnly = true;
+            }
             client = new PokerClient(id, apiKey, name, host, startPoker);
         }
 
