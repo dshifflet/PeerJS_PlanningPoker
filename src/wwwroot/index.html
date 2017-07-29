@@ -1,0 +1,331 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Sprint Poker</title>
+    <!-- Placate IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
+    <meta http-equiv="Cache-control" content="no-cache">
+    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Expires" CONTENT="-1">
+    <style type="text/css" >
+        body {
+            background: #00a651;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            color: white;
+            font-weight:bold;
+        }
+
+        h1 {
+            display: block;
+            text-align: center;
+            font-weight: bold;
+            color: yellow;
+            font-size: 32px;
+            text-shadow: 2px 2px rgba(0,0,0,0.3);
+        }
+
+        h2 {
+            display: block;
+            text-align: center;
+            font-weight: bold;
+            color: yellow;
+            font-size: 24px;
+            text-shadow: 2px 2px rgba(0,0,0,0.3);
+        }
+
+        .cardbackground {
+            background: #00a651;
+        }
+
+        .cardfield {
+            background: #00a651;
+            height: 140px;
+            padding-left: 10px;
+            padding-top: 10px;
+        }
+
+        .card {
+            position: relative;
+            float: left;
+            margin-right: 10px;
+            width: 68px;
+            height: 100px;
+            border-radius: 10px;
+            background: #fff;
+            -webkit-box-shadow: 3px 3px 7px rgba(0,0,0,0.3);
+            box-shadow: 3px 3px 7px rgba(0,0,0,0.3);
+        }
+
+        .card p {
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            font: 35px/100px Georgia, Times New Roman, serif;
+            color: black;
+            cursor: pointer;
+        }
+
+        .username {
+            display: block;
+            text-align: center;
+            font-weight: bold;
+            color: white;
+            font-size: 20px;
+            text-shadow: 2px 2px rgba(0,0,0,0.3);
+        }
+
+        .title {
+            display: block;
+            text-align: center;
+            font-weight: bold;
+            color: yellow;
+            font-size: 32px;
+            text-shadow: 2px 2px rgba(0,0,0,0.3);
+        }
+
+        .textlabel {
+            display: block;
+            text-align: center;
+            font-weight: bold;
+            color: white;
+            font-size: 16px;
+            text-shadow: 2px 2px rgba(0,0,0,0.3);
+            background-color: transparent;
+            border: none;
+        }
+        .textentry {
+            display: block;
+            text-align: center;
+            font-weight: bold;
+            color: white;
+            font-size: 16px;
+            text-shadow: 2px 2px rgba(0,0,0,0.3);
+            background-color: transparent;
+            border: none;
+            border-bottom: 2px dotted yellow;
+        }
+
+        .warning {
+            display: block;
+            text-align: center;
+            font-weight: bold;
+            color: gold;
+            font-size: 16px;
+            text-shadow: 2px 2px rgba(0,0,0,0.3);
+        }
+
+        #shareurl {
+            text-align: center;
+            font-weight: bold;
+            color: white;
+            font-size: 16px;
+            text-shadow: 2px 2px rgba(0,0,0,0.3);
+        }
+
+        #gamename {
+            background-color: transparent;
+            border: none;
+            border-bottom: 2px dotted yellow;
+            width: 100%;
+        }
+
+        .button {
+            background-color: #3e8e41;
+            border: none;
+            color: white;
+            padding: 5px 8px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            -webkit-transition-duration: 0.4s; /* Safari */
+            transition-duration: 0.4s;
+        }
+
+        .button:hover {
+            background-color: darkgreen;
+        }
+
+        .button:active {
+            background-color: #3e8e41;
+            box-shadow: 0 5px #666;
+            transform: translateY(4px);
+        }
+        
+    </style>
+</head>
+<body>
+    <h1>WebRTC Planning Poker</h1>
+    <center>
+        <span id="browserwarning" class="warning" style="color:white;">
+            Use FireFox or Chrome.  If using Chrome have the game in it's own window.  If it's in a tab that loses focus the game will not communicate with the host.
+        </span>
+        <span id="warning" class="warning"></span>
+        <span id="shareurl" style="display:none;">
+            Share URL: <input type="text" id="shareurltext" value="" style="width:200px;">
+            <input type="button" class="button" value="Copy" onclick="copyUrl();"/>
+        </span>
+    </center>
+    <hr />    
+    <center>
+        <div id="newgame" style="display:none;">
+            <h2>New Game</h2>        
+            <p class="textlabel">Your Name:</p><input type="text" class="textentry" id="userName"/>
+            <input type="button" class="button" value="Ok" onclick="startHost();"/>
+        </div>
+        <div id="joingame" style="display:none;">
+            <h2>Join Game</h2>
+            <p class="textlabel">Your Name:</p><input type="text" class="textentry" id="joinName" />
+            <input type="button" class="button" value="Ok" onclick="joinGame();" />
+        </div>
+        <div id="maingame" style="display:none;">
+            <div id="start">
+                <button id="btnnewgame" class="button">New Game</button>
+                <button id="btncallgame" class="button">Call</button>
+            </div>
+
+            <div id="game">
+                <table class="cardbackground">
+                    <tr>
+                        <td>
+                            <input type="text" value="Enter Game Name Here" id="gamename" class="title" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div id="table" class="cardfield"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="title"><br /><br /></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div id="hand" class="cardfield"></div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+</center>
+    <script type="text/javascript" src="js/peer.js"></script>
+    <script type="text/javascript" src="js/poker.js"></script>
+    <script type="text/javascript">
+
+        ready(start);
+        var client;
+
+        function startHost() {
+            var name = document.getElementById("userName").value;
+            var host = generateUUID();
+            if (name && name !== "") {
+                document.location.href = document.location.href += "?host=" + host +
+                    "&id=" + host + "&name=" + name;
+            }
+            else {
+                document.getElementById("warning").innerText = "Please fill out the name field!";
+            }
+        };
+
+        function joinGame() {
+            var host = getURLParameter("host");
+            var name = document.getElementById("joinName").value;
+            var id = generateUUID();
+            if (name && name !== "") {
+                document.location.href += 
+                    "&id=" + id + "&name=" + name;
+            }
+            else {
+                document.getElementById("warning").innerText = "Please fill out the name field!";
+            }
+        };
+
+        function start() {
+
+            var host = getURLParameter("host");
+            var id = getURLParameter("id");
+            var name = getURLParameter("name");
+
+            if (!host) {
+                document.getElementById("newgame").style.display = "";
+                document.getElementById("userName").focus();
+                return;
+            }
+
+            if (!id) {
+                document.getElementById("joingame").style.display = "";
+                document.getElementById("userName").focus();
+                return;
+            }
+
+            document.getElementById("warning").innerText = "";
+            var div = document.getElementById("warning");
+            if (host === id) {
+                div.innerText = "< You are the host if you refresh this page you will disconnect all the clients. >";
+                document.getElementById("shareurltext").value = location.protocol + '//' + location.host + location.pathname + "?host=" + host;
+                document.getElementById("shareurl").style.display = "";
+            }        
+            else {
+                document.getElementById("btnnewgame").style.display = "none";
+                document.getElementById("btncallgame").style.display = "none";
+                document.getElementById("gamename").readOnly = true;
+            }
+            client = new PokerClient(id, name, host, startPoker);
+        }
+
+        function startPoker() {
+            document.getElementById("maingame").style.display = "";
+            client.joinGame();
+            document.getElementById("btncallgame").addEventListener("click", function () { client.callGame(); });
+            document.getElementById("btnnewgame").addEventListener("click", function () { client.newGame(); });
+            document.getElementById("gamename").addEventListener("change", function () { client.nameChange(); });
+
+        };
+
+        function copyUrl() {
+            var target = document.getElementById("shareurltext");
+            target.focus();
+            target.setSelectionRange(0, target.value.length);
+            try {
+                document.execCommand("copy");
+            }
+            catch (e) {
+
+            }
+            target.setSelectionRange(0, 0);
+        }
+
+        /* NO JQUERY */
+        function generateUUID() { // Public Domain/MIT
+            var d = new Date().getTime();
+            if (typeof performance !== 'undefined' && typeof performance.now === 'function') {
+                d += performance.now(); //use high-precision timer if available
+            }
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                var r = (d + Math.random() * 16) % 16 | 0;
+                d = Math.floor(d / 16);
+                return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+            });
+        }
+
+
+        function getURLParameter(name) {
+            return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
+        }
+
+        function ready(fn) {
+            if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+                fn();
+            } else {
+                document.addEventListener("DOMContentLoaded", fn);
+            }
+        }
+        
+    </script>
+</body>
+</html>

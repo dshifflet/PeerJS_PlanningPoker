@@ -3,13 +3,14 @@
 * THIS IS A WORK IN PROGRESS *
 
 ## Usage
-* Get an apiKey from http://www.peerjs.com
-* Host it somewhere
-* then to get to it, http://www.yourhost.com/index.html?apikey=yourKey
+* Host it somewhere.
+* Or download it and node start or nodemon
+* It will host the PeerJs and the static stuff via Express
 
-## TODO
-Need to clean up case of names and ids.  Also some dry todos.
-Really only works well in Firefox.  In Chrome if you change tabs, it basically stops getting the messages.
+
+##PROBLEMS
+* Only works right with Firefox and Chrome
+* If using Chrome keep the game in it's own window.  No neighbor tabs.  If you change focus to tab in the same window the game is hosted in, you will not get updates.
 
 ## What it looks like
 ![alt text](https://raw.githubusercontent.com/dshifflet/PeerJS_PlanningPoker/master/imgs/screenshot.png "Example Screen Shot")

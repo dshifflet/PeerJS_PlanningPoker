@@ -1,10 +1,8 @@
 ﻿
-PokerClient = function (id, apiKey, user, host, whenReady) {
+PokerClient = function (id, user, host, whenReady) {
     var self = this;
-
-    //uploadmydata-peerjsserver.azurewebsites.net
-    this.peer = new Peer(id, { host: 'localhost', port: 1337, path: '/peerserver' });
-
+    //this.peer = new Peer(id, { key: apiKey });
+	this.peer = new Peer(id, {host: window.location.hostname, port: window.location.port, path: '/api'});
     this.id = id;
     this.ready = false;
     this.user = user;
