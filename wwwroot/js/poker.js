@@ -119,6 +119,7 @@ PokerClient = function (id, user, host, whenReady) {
     this.hostStartGame = function () {
         self.history = [];
         self.broadcastMessage("gameStarted", []);        
+		self.broadcastMessage("playCard", [self.user, ""]);
     };
 
     this.hostNameChanged = function (txt) {
@@ -172,6 +173,7 @@ PokerClient = function (id, user, host, whenReady) {
         for (var i = 0; i < cards.length; i++) {
             document.getElementById("_playercard" + i).addEventListener("click", function () { self.playCard(self.user, this.innerText); });
         }
+		self.playCard(self.user, "");
     };
 
     this.showCards = function () {
@@ -188,7 +190,7 @@ PokerClient = function (id, user, host, whenReady) {
         var playedCard = document.getElementById("_playedcard_" + user);
         var html = "<table id='_playedcard_" + user + "' style='float:left;'><tr>";
         var value = card;
-        if (self.user != user) {
+        if (self.user != user && card!="") {
             value = "<p style='color:red;'>♥</p>";
         }
 
