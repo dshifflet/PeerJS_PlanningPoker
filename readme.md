@@ -8,7 +8,7 @@
 * It will host the PeerJs and the static stuff via Express
 
 
-##PROBLEMS
+## PROBLEMS
 * Only works right with Firefox and Chrome
 * If using Chrome keep the game in it's own window.  No neighbor tabs.  If you change focus to tab in the same window the game is hosted in, you will not get updates.
 
