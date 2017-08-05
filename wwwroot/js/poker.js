@@ -10,6 +10,8 @@ PokerClient = function (id, user, host, whenReady) {
 
     this.clients = [];
     this.history = [];
+	
+	this.icons = new animalIcons();
 
 
     this.peer.on('open', function (id) {
@@ -191,7 +193,7 @@ PokerClient = function (id, user, host, whenReady) {
         var html = "<table id='_playedcard_" + user + "' style='float:left;'><tr>";
         var value = card;
         if (self.user != user && card!="") {
-            value = "<p style='color:red;'>♥</p>";
+			value = "<p style='color:red;'>" + self.icons.getRandom() + "</p>";
         }
 
         html += "<td><div style='float:left;padding-left:10px;'><center><span class='username'>" + user + "</span><br/><div class='card playedcard' id='_card_" + user + "_" + card + "' style='float:none;'><p>" + value + "</p></div></center></div></td>";
@@ -202,7 +204,7 @@ PokerClient = function (id, user, host, whenReady) {
         }
         else {
             table.innerHTML += html
-        }
+        }				
     };
 
     this.gameStarted = function () {
